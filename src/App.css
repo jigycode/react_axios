@@ -1,0 +1,129 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 20vh;
+}
+
+.input-section {
+  display: flex;
+  justify-content: center;
+
+  gap: 10px;
+  width: 40%;
+  padding: 10px;
+  background-color: #1e293b; /* Dark background */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.input-section input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #334155;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #000;
+  width: 250px;
+}
+
+.input-section button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #10b981; /* Green add button */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.input-section button:hover {
+  background-color: #059669;
+}
+
+.main-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #0f172a; /* Dark navy background */
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.section-Post {
+  max-width: 90%;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: contents;
+}
+
+li {
+  background: #1e293b; /* Dark card background */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+li:hover {
+  transform: scale(1.02);
+}
+
+p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #e2e8f0; /* Light text */
+}
+
+button {
+  padding: 8px 12px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+button:first-of-type {
+  background-color: #10b981; /* Green edit button */
+  color: white;
+}
+
+button:first-of-type:hover {
+  background-color: #059669;
+}
+
+.btn-delete {
+  background-color: #ef4444; /* Red delete button */
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #b91c1c;
+}
