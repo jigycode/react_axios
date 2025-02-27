@@ -63,7 +63,6 @@ export const Posts = () => {
         {({ handleSubmit, values, handleChange, handleBlur }) => (
           <form className="input-section" onSubmit={handleSubmit}>
             <input
-              type="text"
               name="title"
               value={values.title}
               onChange={handleChange}
