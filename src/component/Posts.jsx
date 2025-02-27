@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { deletePost, getPost } from "../api/PostApi";
+import { addPost, deletePost, getPost } from "../api/PostApi";
 import "../App.css";
 import toast from "react-hot-toast";
+import { Formik } from "formik";
+import Form from "./Form";
 
 export const Posts = () => {
   const [data, setData] = useState([]);
-
   const getPostData = async () => {
     try {
       const res = await getPost();
@@ -16,6 +17,20 @@ export const Posts = () => {
       toast.error("Error fetching posts");
     }
   };
+  const addPostData = async (payload) => {
+    try {
+      const res = await addPost(payload);
+      const u_data = [...data, payload]
+      setData(u_data)
+      toast.success("post added");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error fetching posts");
+    }
+  };
+
+
+
 
   useEffect(() => {
     getPostData();
@@ -36,11 +51,38 @@ export const Posts = () => {
 
   return (
     <div className="container">
-      <form className="input-section">
-        <input type="text" placeholder="Enter Title" />
-        <input type="text" placeholder="Enter Body" />
-        <button>ADD</button>
-      </form>
+
+      <Formik
+        initialValues={{ title: "", body: "" }}
+        onSubmit={(values, { resetForm }) => {
+          console.log("Form submitted", values);
+          addPostData(values)
+          resetForm();
+        }}
+      >
+        {({ handleSubmit, values, handleChange, handleBlur }) => (
+          <form className="input-section" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="title"
+              value={values.title}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="title"
+            />
+            <input
+              type="text"
+              name="body"
+              value={values.body}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="body" />
+            <button type="submit">ADD</button>
+          </form>
+        )}
+      </Formik>
+
+
 
       <section className="section-Post">
         <ul>
