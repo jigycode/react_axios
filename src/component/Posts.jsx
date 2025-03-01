@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { addPost, deletePost, getPost } from "../api/PostApi";
+import { addPost, deletePost, getPost, updatePost } from "../api/PostApi";
 import "../App.css";
 import toast from "react-hot-toast";
 import { Formik } from "formik";
@@ -7,6 +7,7 @@ import Form from "./Form";
 
 export const Posts = () => {
   const [data, setData] = useState([]);
+
   const getPostData = async () => {
     try {
       const res = await getPost();
@@ -30,7 +31,28 @@ export const Posts = () => {
   };
 
 
+  const [updateDataApi, setUpdateDataApi] = useState({
+    title: "",
+    body: "",
+    id: "",
+  });
 
+  const handleUpdatePost = (curElem) => {
+    setUpdateDataApi({
+      title: curElem.title,
+      body: curElem.body,
+      id: curElem.id,
+    });
+  };
+  // useEffect(() => {
+  //   updateDataApi = { updateDataApi }
+  //   setUpdateDataApi = { setUpdateDataApi }
+  //   updateDataApi &&
+  //     setUpdateDataApi({
+  //       title: updateDataApi.title || "",
+  //       body: updateDataApi.body || "",
+  //     });
+  // }, [updateDataApi]);
 
   useEffect(() => {
     getPostData();
@@ -53,14 +75,30 @@ export const Posts = () => {
     <div className="container">
 
       <Formik
-        initialValues={{ title: "", body: "" }}
+        initialValues={{ title: updateDataApi.title, body: updateDataApi.body }}
+        enableReinitialize={true}
         onSubmit={(values, { resetForm }) => {
-          console.log("Form submitted", values);
-          addPostData(values)
-          resetForm();
+          if (updateDataApi.id) {
+            updatePost(updateDataApi.id, values);
+            const u_data = data.map((ele) => {
+              if (ele.id === updateDataApi.id) {
+                return { ...ele, ...values };
+              }
+              return ele;
+            });
+            setData(u_data);
+            setUpdateDataApi({ title: "", body: "", id: "" });
+            toast.success("updated successfully!");
+            console.log("update");
+          } else {
+            console.log("Form submitted", values);
+            addPostData(values)
+            resetForm();
+
+          }
         }}
       >
-        {({ handleSubmit, values, handleChange, handleBlur }) => (
+        {({ handleSubmit, values, handleChange, handleBlur, setValues }) => (
           <form className="input-section" onSubmit={handleSubmit}>
             <input
               name="title"
@@ -76,7 +114,7 @@ export const Posts = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               placeholder="body" />
-            <button type="submit">ADD</button>
+            <button type="submit">{updateDataApi.id ? "update" : "Add"}</button>
           </form>
         )}
       </Formik>
@@ -91,7 +129,7 @@ export const Posts = () => {
               <li key={id}>
                 <p>Title: {title}</p>
                 <p>Body: {body}</p>
-                <button>Edit</button>
+                <button onClick={() => handleUpdatePost(curElem)}>Edit</button>
                 <button
                   className="btn-delete"
                   onClick={() => handleDeletePost(id)}
